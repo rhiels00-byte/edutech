@@ -44,16 +44,16 @@ export const textbookSlides = [
 
 // 학생 제출 현황 데이터
 export const textbookStudents = [
-  { id: 1, name: '김지우', avatar: '🐻', submitted: true, status: 'correct', answer: '52' },
-  { id: 2, name: '이서준', avatar: '🐰', submitted: true, status: 'wrong', answer: '48' },
-  { id: 3, name: '박도윤', avatar: '🦊', submitted: true, status: 'correct', answer: '52' },
-  { id: 4, name: '최수아', avatar: '🐱', submitted: false, status: null, answer: null },
-  { id: 5, name: '정예준', avatar: '🐶', submitted: true, status: 'correct', answer: '52' },
-  { id: 6, name: '강지우', avatar: '🐼', submitted: false, status: null, answer: null },
-  { id: 7, name: '윤서연', avatar: '🐯', submitted: true, status: 'wrong', answer: '50' },
-  { id: 8, name: '장민준', avatar: '🦁', submitted: true, status: 'correct', answer: '52' },
-  { id: 9, name: '임하린', avatar: '🐷', submitted: false, status: null, answer: null },
-  { id: 10, name: '한시우', avatar: '🐸', submitted: true, status: 'correct', answer: '52' },
+  { id: 1, name: '김지우', avatar: '🐻', submitted: true, status: 'correct', answer: '52', submissionNote: '(45 + 52 + 38 + 55 + 60) / 5', activityResults: { result1: { submitted: true, content: 'x + y = 24' }, result2: { submitted: true, content: '2x + y = 31' } } },
+  { id: 2, name: '이서준', avatar: '🐰', submitted: true, status: 'wrong', answer: '48', activityResults: { result1: { submitted: true, content: 'x + y = 18' }, result2: { submitted: false, content: null } } },
+  { id: 3, name: '박도윤', avatar: '🦊', submitted: true, status: 'correct', answer: '52', activityResults: { result1: { submitted: true, content: 'x + y = 27' }, result2: { submitted: true, content: 'x - y = 6' } } },
+  { id: 4, name: '최수아', avatar: '🐱', submitted: false, status: null, answer: null, activityResults: { result1: { submitted: false, content: null }, result2: { submitted: false, content: null } } },
+  { id: 5, name: '정예준', avatar: '🐶', submitted: true, status: 'correct', answer: '52', activityResults: { result1: { submitted: true, content: 'x + y = 22' }, result2: { submitted: true, content: 'x + 2y = 30' } } },
+  { id: 6, name: '강지우', avatar: '🐼', submitted: false, status: null, answer: null, activityResults: { result1: { submitted: false, content: null }, result2: { submitted: true, content: 'x + y = 20' } } },
+  { id: 7, name: '윤서연', avatar: '🐯', submitted: true, status: 'wrong', answer: '50', activityResults: { result1: { submitted: true, content: 'x - y = 2' }, result2: { submitted: false, content: null } } },
+  { id: 8, name: '장민준', avatar: '🦁', submitted: true, status: 'correct', answer: '52', activityResults: { result1: { submitted: true, content: 'x + y = 26' }, result2: { submitted: true, content: '3x + y = 40' } } },
+  { id: 9, name: '임하린', avatar: '🐷', submitted: false, status: null, answer: null, activityResults: { result1: { submitted: false, content: null }, result2: { submitted: false, content: null } } },
+  { id: 10, name: '한시우', avatar: '🐸', submitted: true, status: 'correct', answer: '52', activityResults: { result1: { submitted: true, content: 'x + y = 19' }, result2: { submitted: true, content: 'x + 3y = 33' } } },
 ];
 
 // 학생별 메모 데이터
