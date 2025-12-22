@@ -17,6 +17,7 @@ const TextbookPage = ({ onClose }) => {
   const [viewMode, setViewMode] = useState('web'); // web, ebook
   const [isClassStarted, setIsClassStarted] = useState(false);
   const [showCurriculum, setShowCurriculum] = useState(false);
+  const [showSlideList, setShowSlideList] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(100);
 
   // 사이드 패널 상태
@@ -64,18 +65,19 @@ const TextbookPage = ({ onClose }) => {
       if (e.key === 'Escape') {
         closeAllPanels();
         setShowCurriculum(false);
+        setShowSlideList(false);
         setShowActivityModal(false);
       }
-      if (e.key === 'ArrowLeft' && !showCurriculum && !activePanel) {
+      if (e.key === 'ArrowLeft' && !showCurriculum && !showSlideList && !activePanel) {
         setCurrentSlide(s => Math.max(1, s - 1));
       }
-      if (e.key === 'ArrowRight' && !showCurriculum && !activePanel) {
+      if (e.key === 'ArrowRight' && !showCurriculum && !showSlideList && !activePanel) {
         setCurrentSlide(s => Math.min(textbookSlides.length, s + 1));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [showCurriculum, activePanel]);
+  }, [showCurriculum, showSlideList, activePanel]);
 
   // 수업 집중 모드 토글 (패널 자동 접힘/펼침)
   const handleFocusModeToggle = () => {
@@ -282,6 +284,70 @@ const TextbookPage = ({ onClose }) => {
         </>
       )}
 
+      {/* 슬라이드 목록 패널 (왼쪽에서 슬라이드) */}
+      {showSlideList && (
+        <>
+          <div className="fixed inset-0 bg-black/30 z-50" onClick={() => setShowSlideList(false)}></div>
+          <div className="fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-50 flex flex-col">
+            {/* 헤더 */}
+            <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">📑</span>
+                <span className="font-bold text-base">슬라이드 목록</span>
+              </div>
+              <button
+                onClick={() => setShowSlideList(false)}
+                className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200"
+              >
+                ✕
+              </button>
+            </div>
+            {/* 슬라이드 목록 */}
+            <div className="flex-1 overflow-y-auto p-4">
+              <div className="space-y-2">
+                {textbookSlides.map((slide) => (
+                  <button
+                    key={slide.id}
+                    onClick={() => {
+                      setCurrentSlide(slide.id);
+                      setShowSlideList(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all ${
+                      currentSlide === slide.id
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{slide.icon}</span>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs font-bold ${
+                            currentSlide === slide.id ? 'text-blue-600' : 'text-gray-400'
+                          }`}>
+                            {slide.id}
+                          </span>
+                          <span className={`text-sm font-bold ${
+                            currentSlide === slide.id ? 'text-blue-600' : 'text-gray-700'
+                          }`}>
+                            {slide.title}
+                          </span>
+                        </div>
+                        <div className={`text-xs mt-0.5 ${
+                          currentSlide === slide.id ? 'text-blue-500' : 'text-gray-400'
+                        }`}>
+                          {slide.type}
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* 상단바 */}
       <div className={`h-11 flex items-center justify-between px-3 shrink-0 transition-all border-b ${
         focusMode
@@ -309,6 +375,16 @@ const TextbookPage = ({ onClose }) => {
             }`}
           >
             ☰
+          </button>
+          <button
+            onClick={() => setShowSlideList(true)}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-all ${
+              focusMode
+                ? 'bg-white/10 text-white hover:bg-white/15'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            ◀
           </button>
           {!focusMode && (
             <div className="flex items-center gap-1 text-xs text-gray-500 ml-1.5">
@@ -441,90 +517,92 @@ const TextbookPage = ({ onClose }) => {
 
       {/* 메인 콘텐츠 영역 */}
       <div className="flex-1 flex gap-3 p-3 min-h-0 relative">
-        {/* 왼쪽 패널 - 슬라이드 목록 */}
-        <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 transition-all overflow-hidden ${
-          leftCollapsed ? 'w-12' : 'w-44'
-        }`} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-          {/* 접힌 상태 */}
-          {leftCollapsed && (
-            <div className="flex flex-col h-full">
-              {/* 상단 펼침 버튼 */}
-              <div className="p-1.5 flex justify-center">
-                <button
-                  onClick={() => setLeftCollapsed(false)}
-                  className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-white text-sm hover:bg-slate-600"
-                >
-                  ▶
-                </button>
-              </div>
-              {/* 슬라이드 번호 목록 */}
-              <div className="flex-1 overflow-y-auto py-1 flex flex-col items-center gap-1">
-                {textbookSlides.map((slide) => (
+        {/* 왼쪽 패널 - 슬라이드 목록 (수업 집중 모드가 아닐 때만 표시) */}
+        {!focusMode && (
+          <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 transition-all overflow-hidden ${
+            leftCollapsed ? collapsedSideWidth : 'w-44'
+          }`} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+            {/* 접힌 상태 */}
+            {leftCollapsed && (
+              <div className="flex flex-col h-full">
+                {/* 상단 펼침 버튼 */}
+                <div className="p-1.5 flex justify-center">
                   <button
-                    key={slide.id}
-                    onClick={() => setCurrentSlide(slide.id)}
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-all ${
-                      currentSlide === slide.id
-                        ? 'bg-blue-50 text-blue-600 border-2 border-blue-400'
-                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                    }`}
+                    onClick={() => setLeftCollapsed(false)}
+                    className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center text-white text-sm hover:bg-slate-600"
                   >
-                    {slide.id}
+                    ▶
                   </button>
-                ))}
+                </div>
+                {/* 슬라이드 번호 목록 */}
+                <div className="flex-1 overflow-y-auto py-1 flex flex-col items-center gap-1">
+                  {textbookSlides.map((slide) => (
+                    <button
+                      key={slide.id}
+                      onClick={() => setCurrentSlide(slide.id)}
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium transition-all ${
+                        currentSlide === slide.id
+                          ? 'bg-blue-50 text-blue-600 border-2 border-blue-400'
+                          : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                    >
+                      {slide.id}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-          {/* 펼쳐진 상태 */}
-          {!leftCollapsed && (
-            <>
-              {/* 헤더 */}
-              <div className="px-3 py-2.5 border-b border-gray-200 flex items-center justify-between shrink-0">
-                <span className="font-bold text-sm text-gray-800">슬라이드</span>
-                <button
-                  onClick={() => setLeftCollapsed(true)}
-                  className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center text-white text-xs hover:bg-slate-600"
-                >
-                  ◀
-                </button>
-              </div>
-              {/* 슬라이드 목록 */}
-              <div className="flex-1 overflow-y-auto p-2.5 flex flex-col gap-2">
-                {textbookSlides.map((slide) => (
+            )}
+            {/* 펼쳐진 상태 */}
+            {!leftCollapsed && (
+              <>
+                {/* 헤더 */}
+                <div className="px-3 py-2.5 border-b border-gray-200 flex items-center justify-between shrink-0">
+                  <span className="font-bold text-sm text-gray-800">슬라이드</span>
                   <button
-                    key={slide.id}
-                    onClick={() => setCurrentSlide(slide.id)}
-                    className={`rounded-xl h-20 flex items-center justify-center text-base font-medium transition-all ${
-                      currentSlide === slide.id
-                        ? 'bg-blue-50 text-blue-600 border-2 border-blue-400'
-                        : 'bg-gray-100 text-gray-500 border-2 border-transparent hover:bg-gray-200'
-                    }`}
+                    onClick={() => setLeftCollapsed(true)}
+                    className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center text-white text-xs hover:bg-slate-600"
                   >
-                    {slide.id}
+                    ◀
                   </button>
-                ))}
-              </div>
-              {/* 하단 페이지네이션 */}
-              <div className="p-2 border-t border-gray-200 flex items-center justify-center gap-2 shrink-0">
-                <button
-                  onClick={() => setCurrentSlide(Math.max(1, currentSlide - 1))}
-                  disabled={currentSlide === 1}
-                  className={`w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm hover:bg-gray-50 ${currentSlide === 1 ? 'opacity-30' : ''}`}
-                >
-                  ‹
-                </button>
-                <span className="text-xs font-medium text-gray-600 min-w-[40px] text-center">{currentSlide}/{textbookSlides.length}</span>
-                <button
-                  onClick={() => setCurrentSlide(Math.min(textbookSlides.length, currentSlide + 1))}
-                  disabled={currentSlide === textbookSlides.length}
-                  className={`w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm hover:bg-gray-50 ${currentSlide === textbookSlides.length ? 'opacity-30' : ''}`}
-                >
-                  ›
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+                </div>
+                {/* 슬라이드 목록 */}
+                <div className="flex-1 overflow-y-auto p-2.5 flex flex-col gap-2">
+                  {textbookSlides.map((slide) => (
+                    <button
+                      key={slide.id}
+                      onClick={() => setCurrentSlide(slide.id)}
+                      className={`rounded-xl h-20 flex items-center justify-center text-base font-medium transition-all ${
+                        currentSlide === slide.id
+                          ? 'bg-blue-50 text-blue-600 border-2 border-blue-400'
+                          : 'bg-gray-100 text-gray-500 border-2 border-transparent hover:bg-gray-200'
+                      }`}
+                    >
+                      {slide.id}
+                    </button>
+                  ))}
+                </div>
+                {/* 하단 페이지네이션 */}
+                <div className="p-2 border-t border-gray-200 flex items-center justify-center gap-2 shrink-0">
+                  <button
+                    onClick={() => setCurrentSlide(Math.max(1, currentSlide - 1))}
+                    disabled={currentSlide === 1}
+                    className={`w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm hover:bg-gray-50 ${currentSlide === 1 ? 'opacity-30' : ''}`}
+                  >
+                    ‹
+                  </button>
+                  <span className="text-xs font-medium text-gray-600 min-w-[40px] text-center">{currentSlide}/{textbookSlides.length}</span>
+                  <button
+                    onClick={() => setCurrentSlide(Math.min(textbookSlides.length, currentSlide + 1))}
+                    disabled={currentSlide === textbookSlides.length}
+                    className={`w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm hover:bg-gray-50 ${currentSlide === textbookSlides.length ? 'opacity-30' : ''}`}
+                  >
+                    ›
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
         {/* 메인 패널 */}
         <div className="flex-1 bg-white rounded-2xl border border-gray-200 flex flex-col min-w-0 overflow-hidden relative" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
@@ -1415,31 +1493,31 @@ const TextbookPage = ({ onClose }) => {
       </div>
 
       {/* 하단바 - 3영역 구분 */}
-      <div className="h-18 bg-white border-t border-gray-200 flex items-center justify-between px-4 shrink-0 gap-3">
+      <div className="h-11 bg-white border-t border-gray-200 flex items-center justify-between px-3 shrink-0 gap-2">
         {/* 응답 영역 */}
-        <div className="flex items-center gap-2 px-3.5 py-2 bg-gray-50 rounded-2xl border border-gray-200">
-          <span className="text-xs font-bold text-gray-500 pr-2.5 border-r border-gray-200 mr-1">응답</span>
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-xl border border-gray-200">
+          <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-gray-200 mr-0.5">응답</span>
           <button
             onClick={() => openPanel('submit')}
-            className="flex items-center gap-2.5 px-3 py-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50"
+            className="flex items-center gap-1.5 px-2 py-1 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
           >
-            <span className="text-lg">👥</span>
-            <div className="w-20 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+            <span className="text-sm">👥</span>
+            <div className="w-16 h-1 bg-gray-200 rounded-full overflow-hidden">
               <div className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full" style={{ width: `${(submittedCount/totalCount)*100}%` }}></div>
             </div>
-            <span className="text-sm font-bold"><strong className="text-blue-500 text-base">{submittedCount}</strong>/{totalCount}</span>
+            <span className="text-xs font-bold"><strong className="text-blue-500 text-sm">{submittedCount}</strong>/{totalCount}</span>
           </button>
           <button
             onClick={() => setHideAnswer(!hideAnswer)}
-            className={`px-4 py-2.5 rounded-xl text-sm font-bold ${hideAnswer ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'}`}
+            className={`px-2.5 py-1 rounded-lg text-xs font-bold ${hideAnswer ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'}`}
           >
             ✓ {hideAnswer ? '정오 숨김' : '정오 표시'}
           </button>
         </div>
 
         {/* 활동 영역 */}
-        <div className="flex items-center gap-2 px-3.5 py-2 bg-amber-50 rounded-2xl border border-amber-200">
-          <span className="text-xs font-bold text-gray-500 pr-2.5 border-r border-amber-300 mr-1">활동</span>
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 rounded-xl border border-amber-200">
+          <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-amber-300 mr-0.5">활동</span>
           {[
             { icon: '👋', label: '모으기', panel: 'gather' },
             { icon: '🎯', label: '활동', isModal: true },
@@ -1459,36 +1537,36 @@ const TextbookPage = ({ onClose }) => {
                   openPanel(item.panel);
                 }
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 bg-white border rounded-lg text-xs hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500 transition-all ${
+              className={`flex items-center gap-1 px-2 py-1 bg-white border rounded-lg text-xs hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500 transition-all ${
                 item.active ? 'bg-blue-500 text-white border-blue-500' : 'border-gray-200'
               }`}
             >
-              <span>{item.icon}</span>
+              <span className="text-sm">{item.icon}</span>
               <span>{item.label}</span>
             </button>
           ))}
         </div>
 
         {/* 이동 영역 */}
-        <div className="flex items-center gap-2 px-3.5 py-2 bg-sky-50 rounded-2xl border border-sky-200">
-          <span className="text-xs font-bold text-gray-500 pr-2.5 border-r border-sky-300 mr-1">이동</span>
-          <button className="px-3.5 py-2 border border-gray-200 rounded-lg bg-white text-xs hover:bg-gray-50">‹ 이전차시</button>
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-sky-50 rounded-xl border border-sky-200">
+          <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-sky-300 mr-0.5">이동</span>
+          <button className="px-2.5 py-1 border border-gray-200 rounded-lg bg-white text-xs hover:bg-gray-50">‹ 이전차시</button>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setCurrentSlide(Math.max(1, currentSlide - 1))}
-              className="w-9 h-9 rounded-lg border border-gray-200 bg-white text-sm font-semibold hover:bg-gray-50"
+              className="w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm font-semibold hover:bg-gray-50"
             >
               ‹
             </button>
-            <span className="min-w-10 text-center font-bold text-sm">{currentSlide}/{textbookSlides.length}</span>
+            <span className="min-w-8 text-center font-bold text-xs">{currentSlide}/{textbookSlides.length}</span>
             <button
               onClick={() => setCurrentSlide(Math.min(textbookSlides.length, currentSlide + 1))}
-              className="w-9 h-9 rounded-lg border border-gray-200 bg-white text-sm font-semibold hover:bg-gray-50"
+              className="w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm font-semibold hover:bg-gray-50"
             >
               ›
             </button>
           </div>
-          <button className="px-3.5 py-2 border border-gray-200 rounded-lg bg-white text-xs hover:bg-gray-50">다음차시 ›</button>
+          <button className="px-2.5 py-1 border border-gray-200 rounded-lg bg-white text-xs hover:bg-gray-50">다음차시 ›</button>
         </div>
       </div>
 
