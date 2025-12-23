@@ -34,7 +34,9 @@ const LNB = ({ isCollapsed, setIsCollapsed, activeMenu, setActiveMenu, activeSub
 
   return (
     <div
-      className={`h-screen bg-white flex flex-col transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}
+      className={`h-screen bg-white flex flex-col transition-all duration-300 fixed md:static inset-y-0 left-0 z-50 ${
+        isCollapsed ? 'w-20 -translate-x-full md:translate-x-0' : 'w-64 translate-x-0'
+      }`}
       style={{
         fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif",
         boxShadow: '4px 0 20px rgba(0, 0, 0, 0.05)'

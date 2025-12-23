@@ -268,7 +268,7 @@ const RewardHistoryPage = ({ onClose }) => {
           <span>/</span>
           <span className="text-blue-500">리워드 관리</span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <h1 className="text-2xl font-bold text-gray-800">🏆 리워드 관리</h1>
           <div className="flex items-center gap-3">
             <input
@@ -389,7 +389,7 @@ const StudentMemoPage = ({ student, onClose, onOpenNotePage }) => {
           <span>/</span>
           <span className="text-blue-500">{student.name} 메모</span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">📝 {student.name}</h1>
             <p className="text-sm text-gray-500 mt-1">1학년 3반 · {student.no}번</p>
@@ -591,7 +591,7 @@ const RecentActivityPage = ({ onClose }) => {
           <span>/</span>
           <span className="text-blue-500">최근 활동</span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
             📅 최근 활동
           </h1>
@@ -969,7 +969,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
   return (
     <div className="p-6 bg-gray-50 min-h-screen overflow-auto" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
         <div>
           <div className="text-sm text-gray-400 mb-1">홈 / <span className="text-blue-500">오늘</span></div>
           <h1 className="text-2xl font-bold text-gray-800">안녕하세요, 윤지명 선생님! 👋</h1>
@@ -987,7 +987,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
           <span className="text-lg">📌</span>
           <span className="font-bold text-gray-800">오늘의 할 일</span>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white p-5 rounded-2xl cursor-pointer hover:shadow-lg transition-all relative" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
             <div className="flex items-center gap-2 mb-3">
               <span className="w-3 h-3 bg-red-400 rounded-full"></span>
@@ -1138,9 +1138,9 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
       </div>
 
       {/* 중간 영역 */}
-      <div className="grid grid-cols-5 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
         {/* 이번 주 일정 */}
-        <div className="col-span-3 bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+        <div className="col-span-1 md:col-span-3 bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
           <div className="flex items-center gap-2 mb-4">
             <span>📅</span>
             <span className="font-semibold text-gray-700">이번 주 일정</span>
@@ -1201,7 +1201,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
         </div>
 
         {/* 알림장 */}
-        <div className="col-span-2 bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
+        <div className="col-span-1 md:col-span-2 bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
           <div className="flex items-center gap-2 mb-4">
             <span>🚩</span>
             <span className="font-semibold text-gray-700">알림장</span>
@@ -1232,7 +1232,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
             className="text-sm text-blue-500 hover:text-blue-600 font-medium">더보기 →</button>
         </div>
         {/* 유튜브 스타일 카드 그리드 */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { icon: '📚', type: '교과서', time: '어제', actionStatus: '수업', scheduleStatus: '끝', title: '수학 4-1 수업', sub: '1. 큰 수 > 십만, 백만 알아보기' },
             { icon: '✏️', type: '숙제', time: '3일 전', actionStatus: '출제', scheduleStatus: '하는 중', title: '독후감 제출', sub: '자유 제출형 독후감' },
@@ -1292,7 +1292,7 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
   return (
     <div className="p-6 bg-gray-50 min-h-screen overflow-auto" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6">
         <div>
           <div className="text-sm text-gray-400 mb-1">홈 / <span className="text-blue-500">우리 반</span></div>
           <h1 className="text-2xl font-bold text-gray-800">우리 반 👨‍👩‍👧‍👦</h1>
@@ -1310,7 +1310,7 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
           <span className="text-sm font-medium text-gray-500">빠른 도구</span>
         </div>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">🧠</span>
             <div className="text-center">
@@ -1358,7 +1358,7 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
           <span className="font-bold text-gray-800">우리 반 요약</span>
           <span className="text-xs text-gray-400 ml-2">주의가 필요한 학생</span>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* 기분 나쁜 학생 top3 */}
           <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
             <div className="flex items-center gap-2 mb-3">
@@ -1411,7 +1411,7 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
 
       {/* 학생 리스트 */}
       <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <span>👥</span>
             <span className="font-semibold text-gray-700">학생 리스트</span>

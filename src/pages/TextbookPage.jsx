@@ -72,6 +72,9 @@ const TextbookPage = ({ onClose }) => {
     : null;
   const annotationTarget = isAnnotatingSubmission ? viewingStudent : null;
   const bestStudentData = bestStudent >= 0 ? textbookStudents[bestStudent] : null;
+  const shouldShiftFloatingControls = focusMode
+    && isRightPanelCollapsed
+    && (activePanel || activityResult || (isDrawing && isTogetherMode));
 
   // 토스트 표시 함수
   const showToast = (message) => {
@@ -301,7 +304,7 @@ const TextbookPage = ({ onClose }) => {
             setIsTogetherPanelCollapsed(false);
             showToast('함께 보기가 종료되었습니다.');
           }}
-          width="w-80"
+          width="w-full md:w-80"
           footer={
             <button
               onClick={() => {
@@ -439,7 +442,7 @@ const TextbookPage = ({ onClose }) => {
             setIsRightPanelCollapsed(false);
             setShowActivityResultDetail(false);
           }}
-          width="w-96"
+          width="w-full md:w-96"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
         >
@@ -515,7 +518,7 @@ const TextbookPage = ({ onClose }) => {
           title="제출현황"
           icon="👥"
           onClose={closeAllPanels}
-          width="w-96"
+          width="w-full md:w-96"
           headerActions={null}
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
@@ -741,7 +744,7 @@ const TextbookPage = ({ onClose }) => {
           title="모으기"
           icon="👋"
           onClose={closeAllPanels}
-          width="w-80"
+          width="w-full md:w-80"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
           footer={
@@ -796,7 +799,7 @@ const TextbookPage = ({ onClose }) => {
           title="질문하기"
           icon="💬"
           onClose={closeAllPanels}
-          width="w-96"
+          width="w-full md:w-96"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
           headerActions={
@@ -838,7 +841,7 @@ const TextbookPage = ({ onClose }) => {
           title="활동하기"
           icon="🎯"
           onClose={closeAllPanels}
-          width="w-[650px]"
+          width="w-full md:w-[650px]"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
           footer={
@@ -915,7 +918,7 @@ const TextbookPage = ({ onClose }) => {
           title="북마크"
           icon="🔖"
           onClose={closeAllPanels}
-          width="w-80"
+          width="w-full md:w-80"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
           footer={
@@ -950,7 +953,7 @@ const TextbookPage = ({ onClose }) => {
           title="우수답안"
           icon="👍"
           onClose={closeAllPanels}
-          width="w-96"
+          width="w-full md:w-96"
           isCollapsed={isRightPanelCollapsed}
           onToggleCollapse={() => setIsRightPanelCollapsed(prev => !prev)}
         >
@@ -1240,11 +1243,11 @@ const TextbookPage = ({ onClose }) => {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="flex-1 flex gap-3 p-3 min-h-0 relative">
+      <div className="flex-1 flex flex-col md:flex-row gap-3 p-3 min-h-0 relative">
         {/* 왼쪽 패널 - 슬라이드 목록 (수업 집중 모드가 아닐 때만 표시) */}
         {!focusMode && (
-          <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 transition-all overflow-hidden ${
-            leftCollapsed ? collapsedSideWidth : 'w-44'
+          <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 transition-all overflow-hidden mb-3 md:mb-0 ${
+            leftCollapsed ? collapsedSideWidth : 'w-full md:w-44'
           }`} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
             {/* 접힌 상태 */}
             {leftCollapsed && (
@@ -1896,8 +1899,8 @@ const TextbookPage = ({ onClose }) => {
         {/* feature: textbook.tools.panel */}
         {/* mappingStatus: Existing */}
         {/* apiCandidates: GET /tch/tool/edit/bar/call, POST /tch/tool/edit/bar/save, GET /tch/screen/control/settings, POST /tch/screen/control/settings */}
-        <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 overflow-hidden transition-all duration-300 ${
-          rightCollapsed ? collapsedSideWidth : 'w-52'
+        <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 overflow-hidden transition-all duration-300 mt-3 md:mt-0 ${
+          rightCollapsed ? collapsedSideWidth : 'w-full md:w-52'
         }`} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
           {/* 접힌 상태 */}
           {rightCollapsed && (
@@ -2218,9 +2221,9 @@ const TextbookPage = ({ onClose }) => {
 
       {/* 하단바 - 3영역 구분 */}
       {!focusMode && (
-      <div className="h-11 bg-white border-t border-gray-200 flex items-center justify-between px-3 shrink-0 gap-2">
+      <div className="h-auto md:h-11 bg-white border-t border-gray-200 flex flex-col md:flex-row md:items-center justify-between px-3 py-2 md:py-0 shrink-0 gap-2">
         {/* 응답 영역 */}
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-xl border border-gray-200">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 rounded-xl border border-gray-200 w-full md:w-auto overflow-x-auto">
           <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-gray-200 mr-0.5">응답</span>
           <button
             onClick={() => openPanel('submit')}
@@ -2259,7 +2262,7 @@ const TextbookPage = ({ onClose }) => {
         </div>
 
         {/* 활동 영역 */}
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 rounded-xl border border-amber-200">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 rounded-xl border border-amber-200 w-full md:w-auto overflow-x-auto">
           <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-amber-300 mr-0.5">활동</span>
           {[
             { icon: '👋', label: '모으기', panel: 'gather' },
@@ -2369,7 +2372,7 @@ const TextbookPage = ({ onClose }) => {
         </div>
 
         {/* 이동 영역 */}
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-sky-50 rounded-xl border border-sky-200">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-sky-50 rounded-xl border border-sky-200 w-full md:w-auto overflow-x-auto">
           <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-sky-300 mr-0.5">이동</span>
           <button className="px-2.5 py-1 border border-gray-200 rounded-lg bg-white text-xs hover:bg-gray-50">‹ 이전차시</button>
           <div className="flex items-center gap-1">
@@ -2395,7 +2398,7 @@ const TextbookPage = ({ onClose }) => {
       {/* 집중 모드 플로팅 컨트롤 */}
       {focusMode && (
         <>
-          <div className="fixed right-24 bottom-4 z-40 flex items-center gap-2">
+          <div className={`fixed ${shouldShiftFloatingControls ? 'right-40' : 'right-24'} bottom-4 z-40 flex items-center gap-2`}>
             <div className="flex items-center gap-2 bg-white/95 border border-gray-200 rounded-xl px-2 py-2 shadow-lg">
               <button
                 onClick={() => openPanel('submit')}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initialMessages } from './data/studentData';
 import LNB from './components/LNB';
 import {
@@ -21,6 +21,12 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('main');
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [messages, setMessages] = useState(initialMessages);
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsCollapsed(true);
+    }
+  }, []);
 
   // 노트 페이지 상태
   const [notePageConfig, setNotePageConfig] = useState({ tab: 'notice', studentFilter: null });
@@ -61,6 +67,9 @@ export default function App() {
   // 교과서 페이지 열기
   const handleOpenTextbook = () => {
     setCurrentPage('textbook');
+    if (window.innerWidth < 768) {
+      setIsCollapsed(true);
+    }
   };
 
   const renderContent = () => {
@@ -161,18 +170,41 @@ export default function App() {
     );
   }
 
+  const closeMobileNavIfNeeded = () => {
+    if (window.innerWidth < 768) {
+      setIsCollapsed(true);
+    }
+  };
+
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen bg-gray-100 overflow-hidden relative">
+      {!isCollapsed && (
+        <div
+          onClick={() => setIsCollapsed(true)}
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+        />
+      )}
       <LNB
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
         activeMenu={activeMenu}
-        setActiveMenu={(menu) => { setActiveMenu(menu); setCurrentPage('main'); }}
+        setActiveMenu={(menu) => { setActiveMenu(menu); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
         activeSubMenu={activeSubMenu}
-        setActiveSubMenu={(sub) => { setActiveSubMenu(sub); setCurrentPage('main'); }}
+        setActiveSubMenu={(sub) => { setActiveSubMenu(sub); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
         onOpenTextbook={handleOpenTextbook}
       />
       <div className="flex-1 overflow-auto">
+        <div className="md:hidden sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setIsCollapsed(false)}
+            className="w-9 h-9 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center"
+          >
+            ☰
+          </button>
+          <div className="text-sm font-semibold text-gray-700">
+            {activeMenu}{activeSubMenu ? ` / ${activeSubMenu}` : ''}
+          </div>
+        </div>
         {renderContent()}
       </div>
     </div>
