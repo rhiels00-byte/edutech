@@ -1,4 +1,5 @@
-// 학생 데이터 (moodColor: null = 미응답)
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 실제 데이터로 교체.
+// studentsData: moodColor null = 미응답
 export const studentsData = [
   { no: 1, name: '김서준', moodColor: 'bg-green-400', reward: 45, hasMemo: true, participation: 95, testRate: 100 },
   { no: 2, name: '이하은', moodColor: 'bg-red-400', reward: 32, hasMemo: true, participation: 60, testRate: 45 },
@@ -9,7 +10,7 @@ export const studentsData = [
   { no: 7, name: '윤서연', moodColor: 'bg-red-400', reward: 35, hasMemo: false, participation: 70, testRate: 50 },
 ];
 
-// 리워드 히스토리 데이터
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 리워드 히스토리 조회로 교체.
 export const rewardHistory = {
   '김서준': [
     { date: '12.21', action: '교과서를 공부해서', points: 1 },
@@ -31,7 +32,7 @@ export const rewardHistory = {
   '윤서연': [],
 };
 
-// 교과서 슬라이드 데이터
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 교과서/슬라이드 메타로 교체.
 export const textbookSlides = [
   { id: 1, type: 'concept', icon: '💡', title: '개념' },
   { id: 2, type: 'problem', icon: '❓', title: '문제1' },
@@ -42,7 +43,7 @@ export const textbookSlides = [
   { id: 7, type: 'summary', icon: '📋', title: '정리' },
 ];
 
-// 학생 제출 현황 데이터
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 제출 현황 조회로 교체.
 export const textbookStudents = [
   { id: 1, name: '김지우', avatar: '🐻', submitted: true, status: 'correct', answer: '52', submissionNote: '(45 + 52 + 38 + 55 + 60) / 5', activityResults: { result1: { submitted: true, content: 'x + y = 24' }, result2: { submitted: true, content: '2x + y = 31' } } },
   { id: 2, name: '이서준', avatar: '🐰', submitted: true, status: 'wrong', answer: '48', activityResults: { result1: { submitted: true, content: 'x + y = 18' }, result2: { submitted: false, content: null } } },
@@ -56,7 +57,7 @@ export const textbookStudents = [
   { id: 10, name: '한시우', avatar: '🐸', submitted: true, status: 'correct', answer: '52', activityResults: { result1: { submitted: true, content: 'x + y = 19' }, result2: { submitted: true, content: 'x + 3y = 33' } } },
 ];
 
-// 학생별 메모 데이터
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 메모 조회로 교체.
 export const studentMemos = {
   '김서준': [
     { date: '2025-12-18', content: '방정식 개념 보충 필요' },
@@ -72,7 +73,7 @@ export const studentMemos = {
   '윤서연': [],
 };
 
-// 메시지 히스토리 데이터
+// 임시 데이터 (UI/UX 검증용). TODO: API 연동 시 메시지/채팅 내역으로 교체.
 export const initialMessages = {
   '김서준': [
     { id: 1, text: '서준아, 오늘 수업 잘 들었어요! 👏', time: '12/18 14:30', from: 'teacher' },

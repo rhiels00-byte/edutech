@@ -1,5 +1,8 @@
 import React from 'react';
 
+// feature: ui.rightPanel.shell
+// mappingStatus: Existing
+// apiCandidates: (ui shell only; API mapping handled by parent features)
 // 공통 RightPanel 컴포넌트 - 함께 보기 디자인 기준
 const RightPanel = ({
   title,

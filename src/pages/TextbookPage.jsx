@@ -3,6 +3,11 @@ import { ReactSketchCanvas } from 'react-sketch-canvas';
 import { textbookSlides, textbookStudents } from '../data/studentData';
 import RightPanel from '../components/RightPanel';
 
+// feature: textbook.page
+// mappingStatus: Compose
+// apiCandidates: GET /textbook/crcu/list, GET /textbook/meta/crcu/list, POST /tch/std/start, POST /tch/std/end,
+// apiCandidates: GET /tch/std/lastpage/call, POST /tch/std/lastpage/save, GET /tch/lecture/mdul/qstn/indi, POST /tch/lecture/mdul/qstn/fdb,
+// apiCandidates: POST /tch/lecture/mdul/qstn/exclnt, POST /tch/lecture/mdul/qstn/reset, POST /tch/lecture/mdul/qstn/answ
 const TextbookPage = ({ onClose }) => {
   // 상태 관리
   const [focusMode, setFocusMode] = useState(false);
@@ -280,6 +285,9 @@ const TextbookPage = ({ onClose }) => {
 
   const renderDockedPanel = () => {
     if (isDrawing && isTogetherMode) {
+      // feature: textbook.together.mode
+      // mappingStatus: Needs new API
+      // [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
       return (
         <RightPanel
           title="함께 보기"
@@ -499,6 +507,9 @@ const TextbookPage = ({ onClose }) => {
 
     if (!activePanel) return null;
     if (activePanel === 'submit') {
+      // feature: textbook.submission.status
+      // mappingStatus: Existing
+      // apiCandidates: GET /tch/lecture/mdul/qstn/indi, POST /tch/lecture/mdul/qstn/fdb, POST /tch/lecture/mdul/qstn/exclnt, POST /tch/lecture/mdul/qstn/reset
       return (
         <RightPanel
           title="제출현황"
@@ -722,6 +733,9 @@ const TextbookPage = ({ onClose }) => {
     }
 
     if (activePanel === 'gather') {
+      // feature: textbook.class.gather
+      // mappingStatus: Needs new API
+      // [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
       return (
         <RightPanel
           title="모으기"
@@ -774,6 +788,9 @@ const TextbookPage = ({ onClose }) => {
     }
 
     if (activePanel === 'question') {
+      // feature: textbook.qna
+      // mappingStatus: Existing
+      // apiCandidates: POST /tch/mdul/quest, POST /tch/mdul/quest/comment, POST /tch/mdul/quest/readall
       return (
         <RightPanel
           title="질문하기"
@@ -813,6 +830,9 @@ const TextbookPage = ({ onClose }) => {
     }
 
     if (activePanel === 'activity') {
+      // feature: textbook.activity.start
+      // mappingStatus: Needs new API
+      // [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
       return (
         <RightPanel
           title="활동하기"
@@ -887,6 +907,9 @@ const TextbookPage = ({ onClose }) => {
     }
 
     if (activePanel === 'bookmark') {
+      // feature: textbook.bookmark
+      // mappingStatus: Needs new API
+      // [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
       return (
         <RightPanel
           title="북마크"
@@ -919,6 +942,9 @@ const TextbookPage = ({ onClose }) => {
     }
 
     if (activePanel === 'best') {
+      // feature: textbook.bestAnswer.view
+      // mappingStatus: Existing
+      // apiCandidates: POST /tch/lecture/mdul/qstn/exclnt, POST /tch/lecture/mdul/qstn/exclnt/reset
       return (
         <RightPanel
           title="우수답안"
@@ -1305,6 +1331,9 @@ const TextbookPage = ({ onClose }) => {
         {/* 메인 패널 */}
         <div className="flex-1 bg-white rounded-2xl border border-gray-200 flex flex-col min-w-0 overflow-hidden relative" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
           {/* 판서 도구바 */}
+          {/* feature: textbook.annotation */}
+          {/* mappingStatus: Existing */}
+          {/* apiCandidates: POST /tch/lecture/mdul/note/save, POST /tch/lecture/mdul/note/view, POST /tch/lecture/mdul/note/share, GET /tch/tool/edit/bar/call, POST /tch/tool/edit/bar/board/save */}
           {isDrawing && (
             <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-2xl px-4 py-2 flex items-center gap-2 z-50" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.15)' }}>
               <button
@@ -1507,6 +1536,9 @@ const TextbookPage = ({ onClose }) => {
 
             </div>
           ) : activeTab === 'ai' ? (
+            /* feature: textbook.ai.practice */
+            /* mappingStatus: Existing */
+            /* apiCandidates: GET /tch/airecommend/eng/target/list */
             <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
               <div className="flex gap-6 h-full">
                 {/* 왼쪽 - 설정 패널 */}
@@ -1861,6 +1893,9 @@ const TextbookPage = ({ onClose }) => {
         {renderDockedPanel()}
 
         {/* 오른쪽 패널 - 수업 도구 */}
+        {/* feature: textbook.tools.panel */}
+        {/* mappingStatus: Existing */}
+        {/* apiCandidates: GET /tch/tool/edit/bar/call, POST /tch/tool/edit/bar/save, GET /tch/screen/control/settings, POST /tch/screen/control/settings */}
         <div className={`bg-white rounded-2xl border border-gray-200 flex flex-col shrink-0 overflow-hidden transition-all duration-300 ${
           rightCollapsed ? collapsedSideWidth : 'w-52'
         }`} style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
@@ -2421,6 +2456,9 @@ const TextbookPage = ({ onClose }) => {
       )}
 
       {/* 실시간 모니터링 모달 */}
+      {/* feature: textbook.monitoring */}
+      {/* mappingStatus: Compose */}
+      {/* apiCandidates: GET /tch/dsbd/statistic/participant/list, GET /v1/teacher/classMemberInfo */}
       {showMonitoringModal && (
         <div className="fixed inset-0 z-[600] flex items-center justify-center bg-black/40">
           <div className="w-[92vw] max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">

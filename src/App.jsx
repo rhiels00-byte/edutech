@@ -25,6 +25,9 @@ export default function App() {
   // 노트 페이지 상태
   const [notePageConfig, setNotePageConfig] = useState({ tab: 'notice', studentFilter: null });
 
+  // feature: app.route.registry
+  // mappingStatus: Existing
+  // apiCandidates: (routing only) see page-level featureKey comments
   const handleOpenChat = (student) => {
     setSelectedStudent(student);
     setCurrentPage('chat');

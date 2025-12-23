@@ -530,3 +530,23 @@ testRate: 100      // 시험/숙제 응시율 (%)
 ---
 
 *이 문서는 에듀테크 플랫폼 UI/UX 개선 프로젝트의 결과물입니다.*
+
+---
+
+## 변경 히스토리
+
+### 2025.12.23
+- 변경 파일: `src/App.jsx`, `src/pages/HomePage.jsx`, `src/pages/TextbookPage.jsx`, `src/components/LNB.jsx`, `src/components/RightPanel.jsx`, `src/data/studentData.js`
+- 정리 내용: featureKey 및 API 매핑 주석 추가, 임시 데이터 TODO 표기
+- 산출물: `docs/FRONTEND_UI_INVENTORY.md`, `docs/API_MAPPING_DRAFT.md`
+
+### 신규 기능(API 없음) 목록 및 주석 위치
+- 홈: 오늘의 할 일, 최근 활동 카드 (`src/pages/HomePage.jsx`)
+- 홈: 메시지(전체/개별) (`src/pages/HomePage.jsx`)
+- 홈: 빠른 도구 (`src/pages/HomePage.jsx`)
+- 교과서: 함께 보기, 모으기, 활동 시작, 북마크 (`src/pages/TextbookPage.jsx`)
+
+### 다음 단계 To-do
+- API 파라미터 확인(예: 메모 학생 필터) 및 매핑 확정
+- `docs/API_MAPPING_DRAFT.md` 기반으로 실제 API 연동 계획 수립
+- `src/data/studentData.js` 더미 데이터 제거 및 API 응답 연결

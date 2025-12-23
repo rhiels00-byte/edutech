@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { studentsData, rewardHistory, studentMemos, initialMessages } from '../data/studentData';
 
+// feature: home.note.board
+// mappingStatus: Existing (memo studentFilter needs API param if missing)
+// apiCandidates: GET /tch/dsbd/notice/list, POST /tch/dsbd/notice/save, POST /tch/dsbd/notice/delete, POST /tch/dsbd/notice/pin/update,
+// apiCandidates: GET /tch/dsbd/memo/list, POST /tch/dsbd/memo/save, POST /tch/dsbd/memo/update, POST /tch/dsbd/memo/delete
 const NoticeAndMemoBoard = ({ onClose, initialTab = 'notice', initialStudentFilter = null }) => {
   const [activeTab, setActiveTab] = useState(initialTab); // 'notice' or 'memo'
   const [studentFilter, setStudentFilter] = useState(initialStudentFilter); // 특정 학생 필터
@@ -219,6 +223,9 @@ const NoticeAndMemoBoard = ({ onClose, initialTab = 'notice', initialStudentFilt
   );
 };
 
+// feature: home.reward.history
+// mappingStatus: Existing
+// apiCandidates: GET /tch/reward/list, GET /tch/reward/status, POST /tch/reward/update
 // 리워드 히스토리 전체 화면 페이지
 const RewardHistoryPage = ({ onClose }) => {
   const [studentRewards, setStudentRewards] = useState(
@@ -347,6 +354,9 @@ const RewardHistoryPage = ({ onClose }) => {
   );
 };
 
+// feature: home.class.studentMemo
+// mappingStatus: Existing (student filter param needed)
+// apiCandidates: GET /tch/dsbd/memo/list, POST /tch/dsbd/memo/save
 // 학생별 메모 페이지 - 노트 페이지(메모장 탭)와 연동
 const StudentMemoPage = ({ student, onClose, onOpenNotePage }) => {
   const [memos, setMemos] = useState(studentMemos[student.name] || []);
@@ -458,6 +468,9 @@ const StudentMemoPage = ({ student, onClose, onOpenNotePage }) => {
   );
 };
 
+// feature: home.calendar.month
+// mappingStatus: Existing
+// apiCandidates: GET /tch/dsbd/calendar/list, GET /tch/dsbd/calendar/detail
 // 한 달 캘린더 모달
 const MonthCalendar = ({ onClose }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -551,6 +564,9 @@ const MonthCalendar = ({ onClose }) => {
   );
 };
 
+// feature: home.recentActivity.calendar
+// mappingStatus: Existing
+// apiCandidates: GET /tch/dsbd/calendar/list, GET /tch/dsbd/calendar/detail
 // 최근 활동 전체화면 페이지 (캘린더 UI)
 const RecentActivityPage = ({ onClose }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -681,6 +697,9 @@ const RecentActivityPage = ({ onClose }) => {
   );
 };
 
+// feature: home.class.chat.detail
+// mappingStatus: Needs new API
+// [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
 const StudentChatPage = ({ student, onBack, onViewAll, messages, setMessages }) => {
   const [newMessage, setNewMessage] = useState('');
   const studentMessages = messages[student.name] || [];
@@ -801,6 +820,9 @@ const StudentChatPage = ({ student, onBack, onViewAll, messages, setMessages }) 
   );
 };
 
+// feature: home.class.chat.list
+// mappingStatus: Needs new API
+// [Needs new API] UI/UX 검증용 임시 기능 (API 없음)
 // 전체 메시지 히스토리 페이지
 const AllMessagesPage = ({ onBack, onSelectStudent, messages }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -915,6 +937,9 @@ const AllMessagesPage = ({ onBack, onSelectStudent, messages }) => {
   );
 };
 
+// feature: home.today
+// mappingStatus: Compose
+// apiCandidates: GET /tch/dsbd/status/leaningSummary/statistics/math, GET /tch/dsbd/calendar/list, GET /tch/dsbd/notice/list
 // 오늘 페이지 - Nano Banana 스타일
 const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -956,6 +981,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
       </div>
 
       {/* 오늘의 할 일 */}
+      {/* [Needs new API] UI/UX 검증용 임시 기능 (API 없음) */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-lg">📌</span>
@@ -1194,6 +1220,7 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
       </div>
 
       {/* 하단 영역 - 최근 활동 (유튜브 스타일) */}
+      {/* [Needs new API] UI/UX 검증용 임시 기능 (API 없음) */}
       <div className="bg-white rounded-2xl p-5" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -1256,6 +1283,9 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
   );
 };
 
+// feature: home.class
+// mappingStatus: Compose
+// apiCandidates: GET /v1/teacher/classInfo, GET /v1/teacher/classMemberInfo, GET /etc/tdymd/stnt/last/detail, GET /etc/meta/tc/need
 // 우리 반 페이지 - Nano Banana 스타일
 const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenRewardPage }) => {
 
@@ -1273,7 +1303,8 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
         </div>
       </div>
 
-      {/* 빠른 도구 */}
+        {/* 빠른 도구 */}
+        {/* [Needs new API] UI/UX 검증용 임시 기능 (API 없음) */}
       <div className="bg-white rounded-3xl p-6 mb-6" style={{ boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)' }}>
         <div className="flex items-center gap-2 mb-4">
           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+// feature: nav.lnb
+// mappingStatus: Compose
+// apiCandidates: GET /tch/class/info, GET /tch/dsbd/notice/list, GET /apm/cs/inquiry/list
 const LNB = ({ isCollapsed, setIsCollapsed, activeMenu, setActiveMenu, activeSubMenu, setActiveSubMenu, onOpenTextbook }) => {
   // 기본값: 모든 아코디언 접힘
   const [expandedMenus, setExpandedMenus] = useState([]);
