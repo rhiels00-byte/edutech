@@ -13,9 +13,12 @@ import {
   ClassPage
 } from './pages/HomePage';
 import TextbookPage from './pages/TextbookPage';
+import AssessmentsPage from './pages/AssessmentsPage';
+import HomeworkPage from './pages/HomeworkPage';
 
 export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isViewerMode, setIsViewerMode] = useState(false);
   const [activeMenu, setActiveMenu] = useState('홈');
   const [activeSubMenu, setActiveSubMenu] = useState('오늘');
   const [currentPage, setCurrentPage] = useState('main');
@@ -143,6 +146,26 @@ export default function App() {
       );
     }
 
+    if (activeMenu === '시험') {
+      return (
+        <AssessmentsPage
+          activeSubMenu={activeSubMenu}
+          onBackToSummary={() => setActiveSubMenu(null)}
+          onViewerModeChange={setIsViewerMode}
+        />
+      );
+    }
+
+    if (activeMenu === '숙제') {
+      return (
+        <HomeworkPage
+          activeSubMenu={activeSubMenu}
+          onBackToSummary={() => setActiveSubMenu(null)}
+          onViewerModeChange={setIsViewerMode}
+        />
+      );
+    }
+
     return (
       <div className="flex items-center justify-center h-full bg-gray-50" style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}>
         <div className="text-center p-10 bg-white rounded-3xl" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
@@ -178,33 +201,37 @@ export default function App() {
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden relative">
-      {!isCollapsed && (
+      {!isViewerMode && !isCollapsed && (
         <div
           onClick={() => setIsCollapsed(true)}
           className="fixed inset-0 bg-black/30 z-40 md:hidden"
         />
       )}
-      <LNB
-        isCollapsed={isCollapsed}
-        setIsCollapsed={setIsCollapsed}
-        activeMenu={activeMenu}
-        setActiveMenu={(menu) => { setActiveMenu(menu); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
-        activeSubMenu={activeSubMenu}
-        setActiveSubMenu={(sub) => { setActiveSubMenu(sub); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
-        onOpenTextbook={handleOpenTextbook}
-      />
-      <div className="flex-1 overflow-auto">
-        <div className="md:hidden sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
-          <button
-            onClick={() => setIsCollapsed(false)}
-            className="w-9 h-9 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center"
-          >
-            ☰
-          </button>
-          <div className="text-sm font-semibold text-gray-700">
-            {activeMenu}{activeSubMenu ? ` / ${activeSubMenu}` : ''}
+      {!isViewerMode && (
+        <LNB
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          activeMenu={activeMenu}
+          setActiveMenu={(menu) => { setActiveMenu(menu); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
+          activeSubMenu={activeSubMenu}
+          setActiveSubMenu={(sub) => { setActiveSubMenu(sub); setCurrentPage('main'); closeMobileNavIfNeeded(); }}
+          onOpenTextbook={handleOpenTextbook}
+        />
+      )}
+      <div className={`flex-1 ${isViewerMode ? 'overflow-hidden' : 'overflow-auto'}`}>
+        {!isViewerMode && (
+          <div className="md:hidden sticky top-0 z-30 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+            <button
+              onClick={() => setIsCollapsed(false)}
+              className="w-9 h-9 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center"
+            >
+              ☰
+            </button>
+            <div className="text-sm font-semibold text-gray-700">
+              {activeMenu}{activeSubMenu ? ` / ${activeSubMenu}` : ''}
+            </div>
           </div>
-        </div>
+        )}
         {renderContent()}
       </div>
     </div>

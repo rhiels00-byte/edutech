@@ -475,12 +475,18 @@ const StudentMemoPage = ({ student, onClose, onOpenNotePage }) => {
 const MonthCalendar = ({ onClose }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  /*
+    NOTE: detail 값 표시 정책
+    - "수업" 타입만 detail 값 표시 (단원 정보/목차만 표시)
+    - 예: "1. 큰 수 > 십만, 백만 알아보기"
+    - 숙제, 시험 등 다른 타입은 detail 값 없음
+  */
   const events = [
-    { id: 1, date: 17, title: '수학 4-1 수업', type: '수업', status: '완료', color: 'bg-blue-100 text-blue-600', detail: '1. 큰 수 > 십만, 백만 알아보기' },
-    { id: 2, date: 19, title: '독후감 마감', type: '과제', status: 'D-Day', color: 'bg-green-100 text-green-600', detail: '자유 제출형 독후감 마감일' },
-    { id: 3, date: 20, title: '수학 단원시험', type: '평가', status: 'D-1', color: 'bg-orange-100 text-orange-600', detail: '1단원 형성평가' },
-    { id: 4, date: 15, title: '과제 제출', type: '과제', status: '완료', color: 'bg-blue-100 text-blue-600', detail: '국어 읽기 과제 제출' },
-    { id: 5, date: 30, title: '학부모 상담', type: '기타', status: '예정', color: 'bg-purple-100 text-purple-600', detail: '1학기 학부모 상담 주간' },
+    { id: 1, date: 17, title: '수학 4-1', type: '수업', status: '완료', color: 'bg-blue-50 text-blue-600', detail: '1. 큰 수 > 십만, 백만 알아보기' },
+    { id: 2, date: 19, title: '독후감 마감', type: '숙제', status: 'D-Day', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 3, date: 20, title: '수학 단원시험', type: '시험', status: 'D-1', color: 'bg-indigo-50 text-indigo-600' },
+    { id: 4, date: 15, title: '과제 제출', type: '숙제', status: '완료', color: 'bg-emerald-50 text-emerald-600' },
+    { id: 5, date: 30, title: '학부모 상담', type: '기타', status: '할 일', color: 'bg-gray-100 text-gray-600' },
   ];
 
   return (
@@ -551,10 +557,12 @@ const MonthCalendar = ({ onClose }) => {
                   <span className="font-semibold">상태:</span>
                   <span className={`px-2 py-0.5 rounded-full text-xs ${selectedEvent.color}`}>{selectedEvent.status}</span>
                 </div>
-                <div className="flex items-start gap-2 pt-2">
-                  <span className="font-semibold">상세:</span>
-                  <span>{selectedEvent.detail}</span>
-                </div>
+                {selectedEvent.detail && (
+                  <div className="flex items-start gap-2 pt-2">
+                    <span className="font-semibold">상세:</span>
+                    <span>{selectedEvent.detail}</span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -571,15 +579,21 @@ const MonthCalendar = ({ onClose }) => {
 const RecentActivityPage = ({ onClose }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  /*
+    NOTE: detail 값 표시 정책
+    - "수업" 타입만 detail 값 표시 (단원 정보/목차만 표시)
+    - 예: "1. 큰 수 > 십만, 백만 알아보기", "3. 물질의 상태 > 물의 상태 변화"
+    - 숙제, 시험 등 다른 타입은 detail 값 없음
+  */
   const events = [
-    { id: 1, date: 17, title: '수학 4-1 수업', type: '수업', status: '완료', color: 'bg-blue-100 text-blue-600', detail: '1. 큰 수 > 십만, 백만 알아보기', icon: '📚' },
-    { id: 2, date: 18, title: '국어 3-2 수업', type: '수업', status: '완료', color: 'bg-blue-100 text-blue-600', detail: '시 감상하기', icon: '📚' },
-    { id: 3, date: 18, title: '독후감 제출', type: '숙제', status: '진행중', color: 'bg-green-100 text-green-600', detail: '자유 제출형 독후감', icon: '✏️' },
-    { id: 4, date: 19, title: '독후감 마감', type: '숙제', status: 'D-Day', color: 'bg-green-100 text-green-600', detail: '자유 제출형 독후감 마감일', icon: '✏️' },
-    { id: 5, date: 20, title: '수학 단원시험', type: '시험', status: 'D-1', color: 'bg-orange-100 text-orange-600', detail: '1단원 형성평가', icon: '📝' },
-    { id: 6, date: 15, title: '1단원 형성평가', type: '시험', status: '완료', color: 'bg-orange-100 text-orange-600', detail: '수학 단원시험 채점 완료', icon: '📝' },
-    { id: 7, date: 12, title: '수학 문제풀이', type: '숙제', status: '예정', color: 'bg-green-100 text-green-600', detail: '4단원 연습문제', icon: '✏️' },
-    { id: 8, date: 12, title: '과학 실험', type: '수업', status: '완료', color: 'bg-blue-100 text-blue-600', detail: '물의 상태 변화', icon: '🔬' },
+    { id: 1, date: 17, title: '수학 4-1', type: '수업', status: '완료', color: 'bg-blue-50 text-blue-600', detail: '1. 큰 수 > 십만, 백만 알아보기', icon: '📚' },
+    { id: 2, date: 18, title: '국어 3-2', type: '수업', status: '완료', color: 'bg-blue-50 text-blue-600', detail: '2. 마음을 전하는 글 > 시 감상하기', icon: '📚' },
+    { id: 3, date: 18, title: '독후감 제출', type: '숙제', status: '하는 중', color: 'bg-emerald-50 text-emerald-600', icon: '✏️' },
+    { id: 4, date: 19, title: '독후감 마감', type: '숙제', status: 'D-Day', color: 'bg-emerald-50 text-emerald-600', icon: '✏️' },
+    { id: 5, date: 20, title: '수학 단원시험', type: '시험', status: 'D-1', color: 'bg-indigo-50 text-indigo-600', icon: '📝' },
+    { id: 6, date: 15, title: '1단원 형성평가', type: '시험', status: '완료', color: 'bg-indigo-50 text-indigo-600', icon: '📝' },
+    { id: 7, date: 12, title: '수학 문제풀이', type: '숙제', status: '할 일', color: 'bg-emerald-50 text-emerald-600', icon: '✏️' },
+    { id: 8, date: 12, title: '과학 3-1', type: '수업', status: '완료', color: 'bg-blue-50 text-blue-600', detail: '3. 물질의 상태 > 물의 상태 변화', icon: '🔬' },
   ];
 
   return (
@@ -682,10 +696,12 @@ const RecentActivityPage = ({ onClose }) => {
                 <span className="font-semibold">상태:</span>
                 <span className={`px-2 py-0.5 rounded-full text-xs ${selectedEvent.color}`}>{selectedEvent.status}</span>
               </div>
-              <div className="flex items-start gap-2 pt-2">
-                <span className="font-semibold">상세:</span>
-                <span>{selectedEvent.detail}</span>
-              </div>
+              {selectedEvent.detail && (
+                <div className="flex items-start gap-2 pt-2">
+                  <span className="font-semibold">상세:</span>
+                  <span>{selectedEvent.detail}</span>
+                </div>
+              )}
             </div>
             <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all text-sm font-medium">
               바로 가기 →
@@ -1232,45 +1248,46 @@ const TodayPage = ({ onOpenNotePage, onOpenRecentActivityPage }) => {
             className="text-sm text-blue-500 hover:text-blue-600 font-medium">더보기 →</button>
         </div>
         {/* 유튜브 스타일 카드 그리드 */}
+        {/*
+          NOTE: sub 값 표시 정책
+          - "교과서", "수업" 타입만 sub 값 표시 (단원 정보/목차만 표시)
+          - 예: "1. 큰 수 > 십만, 백만 알아보기"
+          - 숙제, 시험 등 다른 타입은 sub 값 없음
+        */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: '📚', type: '교과서', time: '어제', actionStatus: '수업', scheduleStatus: '끝', title: '수학 4-1 수업', sub: '1. 큰 수 > 십만, 백만 알아보기' },
-            { icon: '✏️', type: '숙제', time: '3일 전', actionStatus: '출제', scheduleStatus: '하는 중', title: '독후감 제출', sub: '자유 제출형 독후감' },
-            { icon: '📝', type: '시험', time: '1주 전', actionStatus: '채점', scheduleStatus: '끝', title: '1단원 형성평가', sub: '수학 단원시험' },
-            { icon: '✏️', type: '숙제', time: '4일 전', actionStatus: '편집', scheduleStatus: '할 일', title: '수학 문제풀이', sub: '4단원 연습문제' },
+                { icon: '📚', type: '교과서', time: '어제', actionStatus: '수업', scheduleStatus: '끝', title: '수학 4-1', sub: '1. 큰 수 > 십만, 백만 알아보기', theme: 'blue' },
+                { icon: '✏️', type: '숙제', time: '3일 전', actionStatus: '출제', scheduleStatus: '하는 중', title: '독후감 제출', theme: 'emerald' },
+                { icon: '📝', type: '시험', time: '1주 전', actionStatus: '채점', scheduleStatus: '끝', title: '1단원 형성평가', theme: 'indigo' },
+                { icon: '✏️', type: '숙제', time: '4일 전', actionStatus: '편집', scheduleStatus: '할 일', title: '수학 문제풀이', theme: 'emerald' },
           ].map((item, idx) => (
             <button
               key={idx}
               onClick={() => {/* TODO: 상세 정보 보기 */}}
-              className="flex flex-col bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all text-left group">
-              {/* 썸네일 영역 - 유튜브 스타일 */}
-              <div className={`h-28 flex items-center justify-center text-4xl ${
-                item.type === '교과서' ? 'bg-gradient-to-br from-blue-100 to-blue-200' :
-                item.type === '숙제' ? 'bg-gradient-to-br from-green-100 to-green-200' :
-                'bg-gradient-to-br from-orange-100 to-orange-200'
-              }`}>
-                {item.icon}
-              </div>
+              className="flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-all text-left group p-4">
               {/* 정보 영역 */}
-              <div className="p-3">
-                <div className="font-medium text-gray-800 text-sm mb-1 group-hover:text-blue-600 transition-colors line-clamp-1">
-                  {item.title}
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-lg">{item.icon}</span>
+                  <div className="font-bold text-gray-800 text-sm group-hover:text-blue-600 transition-colors line-clamp-1">
+                    {item.title}
+                  </div>
                 </div>
-                <div className="text-xs text-gray-500 mb-2 line-clamp-1">{item.sub}</div>
+                {item.sub && <div className="text-xs text-gray-500 mb-2 line-clamp-1">{item.sub}</div>}
                 {/* 메타 정보 - [이모지/자료유형/날짜/자료상태/일정상태] */}
-                <div className="flex flex-wrap items-center gap-1 text-xs">
+                <div className={`flex flex-wrap items-center gap-1 text-xs ${!item.sub ? 'mt-2' : ''}`}>
                   <span className="bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">{item.type}</span>
                   <span className="text-gray-400">{item.time}</span>
                   <span className={`px-1.5 py-0.5 rounded ${
-                    item.actionStatus === '수업' ? 'bg-blue-100 text-blue-600' :
-                    item.actionStatus === '출제' ? 'bg-green-100 text-green-600' :
-                    item.actionStatus === '채점' ? 'bg-purple-100 text-purple-600' :
-                    'bg-yellow-100 text-yellow-600'
+                        item.actionStatus === '수업' ? 'bg-blue-50 text-blue-600' :
+                        item.actionStatus === '출제' ? 'bg-emerald-50 text-emerald-600' :
+                        item.actionStatus === '채점' ? 'bg-indigo-50 text-indigo-600' :
+                        'bg-gray-100 text-gray-600'
                   }`}>{item.actionStatus}</span>
                   <span className={`px-1.5 py-0.5 rounded ${
                     item.scheduleStatus === '끝' ? 'bg-gray-100 text-gray-500' :
-                    item.scheduleStatus === '하는 중' ? 'bg-blue-100 text-blue-600' :
-                    'bg-orange-100 text-orange-600'
+                        item.scheduleStatus === '하는 중' ? 'bg-blue-50 text-blue-600' :
+                        'bg-amber-50 text-amber-600'
                   }`}>{item.scheduleStatus}</span>
                 </div>
               </div>
@@ -1311,40 +1328,40 @@ const ClassPage = ({ onOpenChat, onOpenAllMessages, onOpenNotePage, onOpenReward
           <span className="text-sm font-medium text-gray-500">빠른 도구</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-pink-50 to-pink-100 hover:from-pink-100 hover:to-pink-200 transition-all group">
+          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white border border-gray-100 hover:border-indigo-200 hover:bg-indigo-50 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">🧠</span>
             <div className="text-center">
-              <div className="font-semibold text-pink-700 text-sm">학습심리정서검사</div>
-              <div className="text-xs text-pink-400 mt-1">진행 중 3명</div>
+              <div className="font-semibold text-gray-700 text-sm group-hover:text-indigo-700">학습심리정서검사</div>
+              <div className="text-xs text-gray-400 mt-1 group-hover:text-indigo-500">진행 중 3명</div>
             </div>
           </button>
-          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 transition-all group">
+          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">😊</span>
             <div className="text-center">
-              <div className="font-semibold text-purple-700 text-sm">오늘의 기분</div>
-              <div className="text-xs text-purple-400 mt-1">응답 25명</div>
+              <div className="font-semibold text-gray-700 text-sm group-hover:text-blue-700">오늘의 기분</div>
+              <div className="text-xs text-gray-400 mt-1 group-hover:text-blue-500">응답 25명</div>
             </div>
           </button>
           {/* 순서 변경: 목표 설정 → 마이룸 */}
-          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-all group">
+          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">🎯</span>
             <div className="text-center">
-              <div className="font-semibold text-green-700 text-sm">목표 설정</div>
-              <div className="text-xs text-green-400 mt-1">이번 주</div>
+              <div className="font-semibold text-gray-700 text-sm group-hover:text-emerald-700">목표 설정</div>
+              <div className="text-xs text-gray-400 mt-1 group-hover:text-emerald-500">이번 주</div>
             </div>
           </button>
-          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all group">
+          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">🏠</span>
             <div className="text-center">
-              <div className="font-semibold text-blue-700 text-sm">마이룸</div>
-              <div className="text-xs text-blue-400 mt-1">꾸미기</div>
+              <div className="font-semibold text-gray-700 text-sm group-hover:text-blue-700">마이룸</div>
+              <div className="text-xs text-gray-400 mt-1 group-hover:text-blue-500">꾸미기</div>
             </div>
           </button>
-          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-gradient-to-br from-yellow-50 to-yellow-100 hover:from-yellow-100 hover:to-yellow-200 transition-all group">
+          <button className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl bg-white border border-gray-100 hover:border-amber-200 hover:bg-amber-50 transition-all group">
             <span className="text-3xl group-hover:scale-110 transition-transform">🏪</span>
             <div className="text-center">
-              <div className="font-semibold text-yellow-700 text-sm">상점</div>
-              <div className="text-xs text-yellow-500 mt-1">리워드 사용</div>
+              <div className="font-semibold text-gray-700 text-sm group-hover:text-amber-700">상점</div>
+              <div className="text-xs text-gray-400 mt-1 group-hover:text-amber-500">리워드 사용</div>
             </div>
           </button>
         </div>
