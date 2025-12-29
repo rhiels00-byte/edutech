@@ -15,7 +15,7 @@ const LNB = ({ isCollapsed, setIsCollapsed, activeMenu, setActiveMenu, activeSub
 
   // Section 2: 홈, 결과, 스스로 공부
   const section2Items = [
-    { id: '홈', icon: '🏠', label: '홈', subItems: ['우리 반', '내 자료'] },
+    { id: '홈', icon: '🏠', label: '홈', subItems: ['오늘 할 일', '우리 반', '내 자료'] },
     { id: '결과', icon: '📊', label: '결과', subItems: ['수업', '숙제', '시험'] },
     { id: '스스로 공부', icon: '📚', label: '스스로 공부', subItems: [] },
   ];

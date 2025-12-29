@@ -2262,7 +2262,7 @@ const TextbookPage = ({ onClose }) => {
         </div>
 
         {/* 활동 영역 */}
-        <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 rounded-xl border border-amber-200 w-full md:w-auto overflow-x-auto">
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-amber-50 rounded-xl border border-amber-200 w-full md:w-auto overflow-x-auto overflow-y-visible">
           <span className="text-xs font-bold text-gray-500 pr-1.5 border-r border-amber-300 mr-0.5">활동</span>
           {[
             { icon: '👋', label: '모으기', panel: 'gather' },
